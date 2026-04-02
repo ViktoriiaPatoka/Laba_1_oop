@@ -77,21 +77,20 @@ namespace Laba_1_oop
             current.next = newNode;
         }
 
-        public void Pop () // видалення останього елемента
+        public RecList Pop () // видалення останього елемента
         {
             if (this.next == null)
             {
-                return;
+                return null;
             }
 
             if (this.next.next == null)
             {
                 this.next = null;
+                return this;
             }
-            else
-            {
-                this.next.Pop();
-            }
+            this.next = this.next.Pop();
+            return this;
         }
 
         public RecList PopAllN (int x) // видалення елемента з даними х
@@ -252,7 +251,7 @@ namespace Laba_1_oop
             copylist.PushN(20, 2); // додавання після n-го елемента
             copylist.Print(); // друк елементів
 
-            copylist.Pop(); // видалення у кінці
+            copylist = copylist.Pop(); // видалення у кінці
             copylist.Print(); // друк елементів
 
             copylist = copylist.PopAllN(20); // видалення всіх елементів, які = 20
