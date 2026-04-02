@@ -31,17 +31,21 @@ namespace Laba_1_oop
             if (element.next == null)
             {
                 next = null;
-            } 
+            }
             else
             {
                 next = new RecList(element.next);
             }
         }
 
-        public void Push (int i) // нерекурсивний метод додавання нового елемента
+        public static RecList Push(RecList list, int i) // нерекурсивний метод додавання нового елемента
         {
+            if (list == null)
+            {
+                return new RecList(i);
+            }
             RecList newNode = new RecList(i);
-            RecList current = this;
+            RecList current = list;
 
             while (current.next != null)
             {
@@ -49,9 +53,10 @@ namespace Laba_1_oop
             }
 
             current.next = newNode;
+            return list;
         }
 
-        public void PushN (int i, int n) // метод додавання нового елемента після n-го
+        public void PushN(int i, int n) // метод додавання нового елемента після n-го
         {
             if (n < 0)
             {
@@ -77,7 +82,7 @@ namespace Laba_1_oop
             current.next = newNode;
         }
 
-        public RecList Pop () // видалення останього елемента
+        public RecList Pop() // видалення останього елемента
         {
             if (this.next == null)
             {
@@ -93,7 +98,7 @@ namespace Laba_1_oop
             return this;
         }
 
-        public RecList PopAllN (int x) // видалення елемента з даними х
+        public RecList PopAllN(int x) // видалення елемента з даними х
         {
             if (this.data == x)
             {
@@ -113,10 +118,15 @@ namespace Laba_1_oop
             return this;
         }
 
-        public void Print () // роздрукування елементів
+        public static void Print(RecList list) // метод для виводу
         {
-            RecList current = this;
+            if (list == null)
+            {
+                Console.WriteLine("Список порожній");
+                return;
+            }
 
+            RecList current = list;
             while (current != null)
             {
                 Console.Write(current.data + " ");
@@ -125,7 +135,7 @@ namespace Laba_1_oop
             Console.WriteLine();
         }
 
-        public RecList Find (int x) // пошук елемента з заданим значенням
+        public RecList Find(int x) // пошук елемента з заданим значенням
         {
             if (this.data == x)
             {
@@ -144,6 +154,15 @@ namespace Laba_1_oop
         {
             get
             {
+                if (i < 0)
+                {
+                    i = 0;
+                }
+                if (j < 0)
+                {
+                    j = 0;
+                }
+
                 int value1 = 0;
                 int value2 = 0;
 
@@ -176,6 +195,10 @@ namespace Laba_1_oop
                 if (value1 > value2)
                 {
                     return value2;
+                }
+                if (value1 == value2)
+                {
+                    return value1;
                 }
                 else
                 {
@@ -236,40 +259,12 @@ namespace Laba_1_oop
     {
         static void Main(string[] args)
         {
-            RecList mainlist = new RecList(10, new RecList(20, new RecList(30)));
-            mainlist.Print(); // друк елементів
-
-            RecList smalllist = new RecList(5, new RecList(17));
-            smalllist.Print(); // друк елементів
-
-            RecList copylist = new RecList(mainlist); // копіювання рядка
-            copylist.Print(); // друк елементів
-
-            copylist.Push(24); //  додавання у кінець
-            copylist.Print(); // друк елементів
-
-            copylist.PushN(20, 2); // додавання після n-го елемента
-            copylist.Print(); // друк елементів
-
-            copylist = copylist.Pop(); // видалення у кінці
-            copylist.Print(); // друк елементів
-
-            copylist = copylist.PopAllN(20); // видалення всіх елементів, які = 20
-            copylist.Print(); // друк елементів
-            
-            copylist.Push(25); // додавання елементів
-            copylist.Push(98);
-            copylist.Push(34);
-            copylist.Push(17);
-            copylist.Push(56);
-            copylist.Print(); // друк елементів
-
-            Console.WriteLine((string)copylist.Find(17)); // пошук елемента + використання перевизначення на рядок
-
-            Console.WriteLine(copylist[1, 4]); // індексатор
-
-            RecList newbiglist = mainlist + smalllist; // перевизначення +
-            newbiglist.Print(); // друк елементів
+            RecList a = new RecList(20, new RecList(20, new RecList(20, new RecList(20, new RecList(20)))));
+            RecList.Print(a);
+            a = a.PopAllN(20);
+            RecList.Print(a);
+            a = RecList.Push(a, 50);
+            RecList.Print(a);
         }
     }
 }
