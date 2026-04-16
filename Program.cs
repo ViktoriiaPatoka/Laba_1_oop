@@ -126,6 +126,11 @@ namespace Laba_1_oop
                 return;
             }
 
+            if (list.next == null || list.data == 0)
+            {
+                Console.WriteLine("Список порожній");
+            }
+
             RecList current = list;
             while (current != null)
             {
@@ -254,16 +259,73 @@ namespace Laba_1_oop
 
             return newList;
         }
+
+        public int Length
+        {
+            get
+            {
+                int count = 0;
+                RecList current = this;
+                while (current != null)
+                {
+                    count++;
+                    current = current.next;
+                }
+                return count;
+            }
+
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Довжина не може бути від'ємною");
+                }
+                int currentCount = this.Length;
+                if (value > currentCount)
+                {
+                    RecList current = this;
+                    while (current.next != null)
+                    {
+                        current = current.next;
+                    }
+                    for (int i = 0; i < value - currentCount; i++)
+                    {
+                        current.next = new RecList(0);
+                        current = current.next;
+                    }
+                }
+                else if (value < currentCount)
+                {
+                    if (value == 0)
+                    {
+                        this.next = null;
+                        this.data = 0;
+                    }
+                    else
+                    {
+                        RecList current = this;
+                        for (int i = 1; i < value; i++)
+                        {
+                            current = current.next;
+                        }
+                        current.next = null;
+                    }
+                }
+            }
+        }
+        // 48
     }
     internal class Program
     {
         static void Main(string[] args)
         {
-            RecList a = new RecList(20, new RecList(20, new RecList(20, new RecList(20, new RecList(20)))));
+            RecList a = new RecList(20, new RecList(15, new RecList(20, new RecList(80, new RecList(20)))));
             RecList.Print(a);
-            a = a.PopAllN(20);
+            int x = a.Length;
+            Console.WriteLine(x);
+            a.Length = 2;
             RecList.Print(a);
-            a = RecList.Push(a, 50);
+            a.Length = 6;
             RecList.Print(a);
         }
     }
